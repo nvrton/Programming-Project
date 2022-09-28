@@ -6,7 +6,7 @@ from tkintermapview import TkinterMapView
 from maindetonate import detonation
 from tkinter import CENTER
 #from smartlearning import Smartlearning
-#hihihi
+
 ### MAP CREDIT:    https://github.com/TomSchimansky/TkinterMapView ###
 ### tkinter used for UI ###
 ##where do i put damageradius = smartlearning.predict(text) ??
