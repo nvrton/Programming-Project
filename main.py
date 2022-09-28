@@ -1,14 +1,11 @@
-#external files
-from tkinter import *
-from tkinter import CENTER
+#from sqlite3 import SQLITE_DROP_VTABLE
 import customtkinter as ck
+from tkinter import *
 from tkcalendar import Calendar
 from tkintermapview import TkinterMapView
-#self made files
-from maindetonate import *
-from maindetonate import *
+from maindetonate import detonation
+from tkinter import CENTER
 #from smartlearning import Smartlearning
-
 
 ### MAP CREDIT:    https://github.com/TomSchimansky/TkinterMapView ###
 ### tkinter used for UI ###
@@ -19,8 +16,7 @@ class Map(ck.CTk):#defines the class map - to be used later
     WIDTH = 900 #dimensions
     HEIGHT = 600
 
-    marker_list=[]
-    def set_marker_event(self):
+    def set_marker_event(self):#
         self.clear_marker_event()
         current_position = self.map_widget.get_position()
         self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1]))
@@ -29,12 +25,6 @@ class Map(ck.CTk):#defines the class map - to be used later
     def clear_marker_event(self):
         for marker in self.marker_list:
             marker.delete()
-
-    def on_closing(self, event=0):
-        self.destroy()
-
-    def start(self):
-        self.mainloop()
 
     def detonate_event(self):
         def polygon_click(polygon):
@@ -45,17 +35,43 @@ class Map(ck.CTk):#defines the class map - to be used later
 
         detonateposition = self.map_widget.get_position()
         print(detonateposition)
+        detonateposition = str(detonateposition)
 
-        
+        latitude,longitude = detonateposition.split(",")
+        latitude = latitude.strip("(")
+        longitude = longitude.strip(")")
+        latitude = float(latitude)
+        longitude = float(longitude)
+        print(latitude)
+        print(longitude)
+        point1Lo = (longitude-0.2748)
+        point1La = (latitude)#right place, too far away though
+        point2La = (latitude-0.1374)
+        point2Lo = (longitude+0.137)  
+        point3La = (latitude+0.1374)
+        point3Lo = (longitude+0.137)
+        point4La = (latitude+0.2748)
+        point4Lo = (longitude)
+        point5La = (latitude+0.1374)
+        point5Lo = (longitude-0.1374)
+        point6La = (latitude-0.1374)
+        point6Lo = (longitude-0.2748)
 
-        self.map_widget.set_polygon([(detonateposition)],
+        self.map_widget.set_polygon([(point1La,point1Lo),
+                                     ],
+                                     
                                             # fill_color=None,
                                             # outline_color="red",
                                             # border_width=12, 
                                             command=polygon_click,
-                                            name="switzerland_polygon")
-        settings = Settings()
-        settings.mainloop()
+                                            name="detonation_polygon")
+        detonation.main()
+
+    def on_closing(self, event=0):
+        self.destroy()
+
+    def start(self):
+        self.mainloop()
 
     def wind_choose_event(self):
         root = Tk()
@@ -115,7 +131,7 @@ class Map(ck.CTk):#defines the class map - to be used later
         self.geometry(str(Map.WIDTH) + "x" + str(Map.HEIGHT))#sets launch dimensions as whatever I defined them as above
         self.minsize(Map.WIDTH, Map.HEIGHT)#sets the minimum size of the program to whatever the launch dimensions are
 
-        
+        self.marker_list=[]
 
         self.protocol("WM_DELETE_WINDOW", self.on_closing)#this clears the window should I close it
         self.bind("<Command-q>", self.on_closing)
@@ -152,12 +168,10 @@ class Map(ck.CTk):#defines the class map - to be used later
                                                 command=self.detonate_event)
         self.button_2.grid(pady=(20, 0), padx=(20, 20), row=5, column=0)
 
-
         self.datechoose = ck.CTkButton(master=self.frame_left,
                                                 text="Choose Date",
                                                 command=self.date_choose_event)
         self.datechoose.grid(pady=(20, 0), padx=(20, 20), row=1, column=0)
-
 
         datechoice = "No Date Selected"
         self.datetext = ck.CTkLabel(self.frame_left,
@@ -171,7 +185,6 @@ class Map(ck.CTk):#defines the class map - to be used later
                                                 command=self.wind_choose_event)
         self.windchoose.grid(pady=(20,0), padx=(20, 20), row=3, column=0)
 
-
         windchoice = "No Wind Selected"
         self.windtext = ck.CTkLabel(self.frame_left,
                                                 text=windchoice, 
@@ -179,8 +192,8 @@ class Map(ck.CTk):#defines the class map - to be used later
         self.windtext.grid(padx=(20, 20), pady=(20, 0), row=4, column=0)
 
         
-        #this builds the right hand frame
 
+        #this builds the right hand frame
 
         self.frame_right.grid_rowconfigure(1, weight=1)#sets up the grid the right hand frame operates in
         self.frame_right.grid_rowconfigure(0, weight=0)
@@ -195,12 +208,6 @@ class Map(ck.CTk):#defines the class map - to be used later
         #self.map_option_menu.set("OpenStreetMap")#sets the map to street view (rather than satelight)
         #self.appearance_mode_optionemenu.set("Dark")#sets map to dark mode rather than light mode
 
-
 if __name__ == "__main__":
     map = Map()
     map.start()
-            
-            
-
-
-
