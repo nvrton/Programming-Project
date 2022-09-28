@@ -74,7 +74,7 @@ class detonation():
     #cannot have window.close() in while loop, must break in if then jump to window.close()
 
 
-class Settings(ck.CTk):
+class Settings(ck.CTk):#haven't figured out customtkinter setup config yet, so am still using pysimplegui code, once i figure this out i will swap over main.py to call settings 
     WIDTH = 480
     HEIGHT = 580
 
