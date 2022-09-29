@@ -5,11 +5,12 @@ from tkcalendar import Calendar
 from tkintermapview import TkinterMapView
 from maindetonate import detonation
 from tkinter import CENTER
+import math
 #from smartlearning import Smartlearning
 
 ### MAP CREDIT:    https://github.com/TomSchimansky/TkinterMapView ###
 ### tkinter used for UI ###
-##where do i put damageradius = smartlearning.predict(text) ??
+##  where do i put damageradius = smartlearning.predict(text) ??
 
 class Map(ck.CTk):#defines the class map - to be used later
     APP_NAME = "Nuclear Reactor Meltdown Simulator" #name of
@@ -44,22 +45,23 @@ class Map(ck.CTk):#defines the class map - to be used later
         longitude = float(longitude)
         print(latitude)
         print(longitude)
-        point1Lo = (longitude-0.2748)
-        point1La = (latitude)#right place, too far away though
-        point2La = (latitude-0.1374)
-        point2Lo = (longitude+0.137)  
-        point3La = (latitude+0.1374)
-        point3Lo = (longitude+0.137)
-        point4La = (latitude+0.2748)
+        point1La = (latitude)
+        point1Lo = (longitude-0.4407)
+        point2La = (latitude+0.2701)
+        point2Lo = (longitude)
+        point3La = (latitude)  
+        point3Lo = (longitude+0.4407)
+        point4La = (latitude-0.2701)
         point4Lo = (longitude)
-        point5La = (latitude+0.1374)
-        point5Lo = (longitude-0.1374)
-        point6La = (latitude-0.1374)
-        point6Lo = (longitude-0.2748)
+        testpointLa = (latitude+1.135)
+        testpointLo = (longitude-1.2205)
+        
 
         self.map_widget.set_polygon([(point1La,point1Lo),
-                                     ],
                                      
+                                     (point2La,point2Lo),
+                                     (point3La,point3Lo),
+                                     (point4La,point4Lo)],
                                             # fill_color=None,
                                             # outline_color="red",
                                             # border_width=12, 
@@ -123,7 +125,7 @@ class Map(ck.CTk):#defines the class map - to be used later
         date.pack(pady = 20)
 
         root.mainloop()
-
+    
     def __init__(self, *args, **kwargs):#defines main bulk of setup code, where everything is defined
         super().__init__(*args, **kwargs)#passes any positional and keyword arguments to the parent (I'm thinking being class()?)
 
@@ -190,6 +192,13 @@ class Map(ck.CTk):#defines the class map - to be used later
                                                 text=windchoice, 
                                                 anchor="center")
         self.windtext.grid(padx=(20, 20), pady=(20, 0), row=4, column=0)
+
+        def optionmenu_callback(choice):
+                print("optionmenu dropdown clicked:", choice)
+        self.combobox = ck.CTkOptionMenu(master=self.frame_left,
+                                                    values=["Chernobyl", "option 2"],
+                                                    command=optionmenu_callback)
+        self.combobox.grid(padx=(20, 20), pady=(10, 0), row=6, column=0)
 
         
 
