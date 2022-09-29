@@ -68,7 +68,7 @@ class detonation():
 
     #main()
     
-
+#hello
     #this works finally. event, values is only way it works, not sure what values does. 
 
     #cannot have window.close() in while loop, must break in if then jump to window.close()
