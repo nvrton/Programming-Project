@@ -1,0 +1,13 @@
+functions to make:
+miles to long conversion
+miles to lat conversion
+
+octogon naturally making itself whilst using the square root of hypotenuse ^2  over 2
+
+make windspeed do smth
+
+
+straight line from point for 19 miles up = 0.2701
+straight line from point for 19 miles sideways = 0.4407
+latitude for triangle point = 0.1951
+longitude for triangle point = 0.3183

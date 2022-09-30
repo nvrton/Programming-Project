@@ -46,22 +46,31 @@ class Map(ck.CTk):#defines the class map - to be used later
         print(latitude)
         print(longitude)
         point1La = (latitude)
-        point1Lo = (longitude-0.4407)
-        point2La = (latitude+0.2701)
-        point2Lo = (longitude)
-        point3La = (latitude)  
-        point3Lo = (longitude+0.4407)
-        point4La = (latitude-0.2701)
-        point4Lo = (longitude)
-        testpointLa = (latitude+1.135)
-        testpointLo = (longitude-1.2205)
+        point1Lo = (longitude-0.4407)#
+        point2La = (latitude+0.1951)
+        point2Lo = (longitude-0.3183)
+        point3La = (latitude+0.2701)#
+        point3Lo = (longitude)
+        point4La = (latitude+0.1951)  
+        point4Lo = (longitude+0.3183)
+        point5La = (latitude)
+        point5Lo = (longitude+0.4407)#
+        point6La = (latitude-0.1951)
+        point6Lo = (longitude+0.3183)
+        point7La = (latitude-0.2701)#
+        point7Lo = (longitude)
+        point8La = (latitude-0.1951)
+        point8Lo = (longitude-0.3183)
         
 
         self.map_widget.set_polygon([(point1La,point1Lo),
-                                     
                                      (point2La,point2Lo),
                                      (point3La,point3Lo),
-                                     (point4La,point4Lo)],
+                                     (point4La,point4Lo),
+                                     (point5La,point5Lo),
+                                     (point6La,point6Lo),
+                                     (point7La,point7Lo),
+                                     (point8La,point8Lo)],
                                             # fill_color=None,
                                             # outline_color="red",
                                             # border_width=12, 
