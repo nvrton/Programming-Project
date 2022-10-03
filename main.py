@@ -12,7 +12,7 @@ import math
 ### tkinter used for UI ###
 ##  where do i put damageradius = smartlearning.predict(text) ??
 
-class Map(ck.CTk):#defines the class map - to be used later
+class Map(ck.CTk):#defines the class map 
     APP_NAME = "Nuclear Reactor Meltdown Simulator" #name of
     WIDTH = 900 #dimensions
     HEIGHT = 600
