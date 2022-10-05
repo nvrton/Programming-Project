@@ -11,6 +11,7 @@ import math
 ### MAP CREDIT:    https://github.com/TomSchimansky/TkinterMapView ###
 ### tkinter used for UI ###
 ##  where do i put damageradius = smartlearning.predict(text) ??
+##rememebr to add: reset(removes all radius of damage), delete secondary window if another loads?,
 
 class Map(ck.CTk):#defines the class map 
     APP_NAME = "Nuclear Reactor Meltdown Simulator" #name of
