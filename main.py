@@ -19,14 +19,24 @@ class Map(ck.CTk):#defines the class map
     HEIGHT = 600
 
     def set_marker_event(self):#
-        self.clear_marker_event()
+        self.clear_marker()
         current_position = self.map_widget.get_position()
         self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1]))
         print(current_position)
+
+    #def reset_button_event(self):
         
+    def clear_marker(self):
+        for marker in self.marker_list:
+            marker.delete()
+
+
     def clear_marker_event(self):
         for marker in self.marker_list:
             marker.delete()
+        for self.polygon1 in self.polygon_list:
+            self.polygon1.delete()
+        
 
     def detonate_event(self):
         def polygon_click(polygon):
@@ -63,8 +73,8 @@ class Map(ck.CTk):#defines the class map
         point8La = (latitude-0.1951)
         point8Lo = (longitude-0.3183)
         
-
-        self.map_widget.set_polygon([(point1La,point1Lo),
+        global polygon1
+        self.polygon1 = self.map_widget.set_polygon([(point1La,point1Lo),
                                      (point2La,point2Lo),
                                      (point3La,point3Lo),
                                      (point4La,point4Lo),
@@ -77,7 +87,8 @@ class Map(ck.CTk):#defines the class map
                                             # border_width=12, 
                                             command=polygon_click,
                                             name="detonation_polygon")
-        detonation.main()
+        self.polygon_list.append(self.polygon1)
+        #detonation.main()
 
     def on_closing(self, event=0):
         self.destroy()
@@ -144,6 +155,7 @@ class Map(ck.CTk):#defines the class map
         self.minsize(Map.WIDTH, Map.HEIGHT)#sets the minimum size of the program to whatever the launch dimensions are
 
         self.marker_list=[]
+        self.polygon_list=[]
 
         self.protocol("WM_DELETE_WINDOW", self.on_closing)#this clears the window should I close it
         self.bind("<Command-q>", self.on_closing)
@@ -178,7 +190,13 @@ class Map(ck.CTk):#defines the class map
         self.button_2 = ck.CTkButton(master=self.frame_left,
                                                 text="Detonate",
                                                 command=self.detonate_event)
-        self.button_2.grid(pady=(20, 0), padx=(20, 20), row=5, column=0)
+        self.button_2.grid(pady=(20, 0), padx=(20, 20), row=6, column=0)
+
+        self.reset_button = ck.CTkButton(master=self.frame_left,
+                                                text="Reset",
+                                                #command=self.reset_button_event,
+                                                command=self.clear_marker_event)
+        self.reset_button.grid(pady=(20, 0), padx=(20, 20), row=8, column=0)
 
         self.datechoose = ck.CTkButton(master=self.frame_left,
                                                 text="Choose Date",
@@ -208,7 +226,8 @@ class Map(ck.CTk):#defines the class map
         self.combobox = ck.CTkOptionMenu(master=self.frame_left,
                                                     values=["Chernobyl", "option 2"],
                                                     command=optionmenu_callback)
-        self.combobox.grid(padx=(20, 20), pady=(10, 0), row=6, column=0)
+        self.combobox.grid(padx=(20, 20), pady=(10, 0), row=5, column=0)
+
 
         
 
@@ -226,7 +245,7 @@ class Map(ck.CTk):#defines the class map
         self.map_widget.set_address("Solihull")#sets address to start on to cheltenham
         #self.map_option_menu.set("OpenStreetMap")#sets the map to street view (rather than satelight)
         #self.appearance_mode_optionemenu.set("Dark")#sets map to dark mode rather than light mode
-
+    
 if __name__ == "__main__":
     map = Map()
     map.start()
