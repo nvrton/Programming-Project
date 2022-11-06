@@ -47,18 +47,18 @@ class Map(ck.CTk):#defines the class map
         print(latitude)
         print(longitude)
         point1La = (latitude)
-        point1Lo = (longitude-0.4407)#
-        point2La = (latitude+0.1951)
-        point2Lo = (longitude-0.3183)
-        point3La = (latitude+0.2701)#
+        point1Lo = (longitude-0.4407)#longstraight
+        point2La = (latitude+0.1951)#latsmall
+        point2Lo = (longitude-0.3183)#longsmall
+        point3La = (latitude+0.2701)#latstraight
         point3Lo = (longitude)
         point4La = (latitude+0.1951)  
         point4Lo = (longitude+0.3183)
         point5La = (latitude)
-        point5Lo = (longitude+0.4407)#
+        point5Lo = (longitude+0.4407)#longstraight
         point6La = (latitude-0.1951)
         point6Lo = (longitude+0.3183)
-        point7La = (latitude-0.2701)#
+        point7La = (latitude-0.2701)#latstraight
         point7Lo = (longitude)
         point8La = (latitude-0.1951)
         point8Lo = (longitude-0.3183)
