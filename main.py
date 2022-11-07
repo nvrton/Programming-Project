@@ -36,15 +36,47 @@ class Map(ck.CTk):#defines the class map
             marker.delete()
         for self.polygon1 in self.polygon_list:
             self.polygon1.delete()
-        
 
+
+    def options(self, choice):
+            global longstraight
+            global latstraight
+            global longsmall
+            global latsmall
+            
+            if choice == "Sellafield Reactor":
+                print("Sellafield Reactor")
+                longstraight = 0.1177935
+                latstraight = 0.0721811
+                longsmall = 0.08507753813
+                latsmall = 0.05213821774
+            elif choice == "Chernobyl":
+                print("Chernobyl")
+                longstraight = 0.4407
+                latstraight = 0.2701
+                longsmall = 0.3183
+                latsmall = 0.1951
+            elif choice == "Three Mile Island":
+                print("Three Mile Island")
+                longstraight = 0.4739935
+                latstraight = 0.290384
+                longsmall = 0.3423465647
+                latsmall = 0.2097516416
+            elif choice == "Fukushima-Daiichi":
+                print("Fukushima-Daiichi")
+                longstraight = 0.5924935
+                latstraight = 0.3659811
+                longsmall = 0.4279343795
+                latsmall = 0.2643573218
+            
     def detonate_event(self):
         def polygon_click(polygon):
             print(f"polygon clicked - text: {polygon.name}")
 
         #switzerland_marker = self.map_widget.set_address("Switzerland", marker=True, text="Switzerland")
         #self.map_widget.set_zoom(8)
-
+        
+#get marker position to lable long and lat, currently always takes from centre of screen!! 
         detonateposition = self.map_widget.get_position()
         print(detonateposition)
         detonateposition = str(detonateposition)
@@ -56,32 +88,41 @@ class Map(ck.CTk):#defines the class map
         longitude = float(longitude)
         print(latitude)
         print(longitude)
+        #longstraight = 1
+        #if longstraight == 0:
+            #pwindow = ck.CTkToplevel(self)
+            #pwindow.geometry("400x200")
+
+            # create label on CTkToplevel window
+            #label = ck.CTkLabel(pwindow, text="CTkToplevel window")
+            #label.pack(side="top", fill="both", expand=True, padx=40, pady=40)
+        #else: 
         point1La = (latitude)
-        point1Lo = (longitude-0.4407)#longstraight
-        point2La = (latitude+0.1951)#latsmall
-        point2Lo = (longitude-0.3183)#longsmall
-        point3La = (latitude+0.2701)#latstraight
+        point1Lo = (longitude-longstraight)#longstraight
+        point2La = (latitude+latsmall)#latsmall
+        point2Lo = (longitude-longsmall)#longsmall
+        point3La = (latitude+latstraight)#latstraight
         point3Lo = (longitude)
-        point4La = (latitude+0.1951)  
-        point4Lo = (longitude+0.3183)
+        point4La = (latitude+latsmall)  
+        point4Lo = (longitude+longsmall)
         point5La = (latitude)
-        point5Lo = (longitude+0.4407)#longstraight
-        point6La = (latitude-0.1951)
-        point6Lo = (longitude+0.3183)
-        point7La = (latitude-0.2701)#latstraight
+        point5Lo = (longitude+longstraight)#longstraight
+        point6La = (latitude-latsmall)
+        point6Lo = (longitude+longsmall)
+        point7La = (latitude-latstraight)#latstraight
         point7Lo = (longitude)
-        point8La = (latitude-0.1951)
-        point8Lo = (longitude-0.3183)
+        point8La = (latitude-latsmall)
+        point8Lo = (longitude-longsmall)
         
         global polygon1
         self.polygon1 = self.map_widget.set_polygon([(point1La,point1Lo),
-                                     (point2La,point2Lo),
-                                     (point3La,point3Lo),
-                                     (point4La,point4Lo),
-                                     (point5La,point5Lo),
-                                     (point6La,point6Lo),
-                                     (point7La,point7Lo),
-                                     (point8La,point8Lo)],
+                                    (point2La,point2Lo),
+                                    (point3La,point3Lo),
+                                    (point4La,point4Lo),
+                                    (point5La,point5Lo),
+                                    (point6La,point6Lo),
+                                    (point7La,point7Lo),
+                                    (point8La,point8Lo)],
                                             # fill_color=None,
                                             # outline_color="red",
                                             # border_width=12, 
@@ -194,7 +235,6 @@ class Map(ck.CTk):#defines the class map
 
         self.reset_button = ck.CTkButton(master=self.frame_left,
                                                 text="Reset",
-                                                #command=self.reset_button_event,
                                                 command=self.clear_marker_event)
         self.reset_button.grid(pady=(20, 0), padx=(20, 20), row=8, column=0)
 
@@ -221,11 +261,11 @@ class Map(ck.CTk):#defines the class map
                                                 anchor="center")
         self.windtext.grid(padx=(20, 20), pady=(20, 0), row=4, column=0)
 
-        def optionmenu_callback(choice):
-                print("optionmenu dropdown clicked:", choice)
+       
         self.combobox = ck.CTkOptionMenu(master=self.frame_left,
-                                                    values=["Chernobyl", "option 2"],
-                                                    command=optionmenu_callback)
+                                                    values=["Sellafield Reactor",  "Chernobyl", "Three Mile Island", "Fukushima-Daiichi"],
+                                                    command=self.options)
+        self.combobox.set("Sellafield Reactor")
         self.combobox.grid(padx=(20, 20), pady=(10, 0), row=5, column=0)
 
 
