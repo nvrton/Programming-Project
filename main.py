@@ -6,6 +6,7 @@ from tkintermapview import TkinterMapView
 from maindetonate import detonation
 from tkinter import CENTER
 import math
+from internetping import *
 #from smartlearning import Smartlearning
 
 ### MAP CREDIT:    https://github.com/TomSchimansky/TkinterMapView ###
@@ -287,5 +288,8 @@ class Map(ck.CTk):#defines the class map
         #self.appearance_mode_optionemenu.set("Dark")#sets map to dark mode rather than light mode
     
 if __name__ == "__main__":
+    connect_window()
     map = Map()
     map.start()
+ 
+        
