@@ -35,6 +35,7 @@ def connect_window():
             
 
             app.mainloop()
+            return False
     else:  
         print("Connected!")
-        
+        return True 

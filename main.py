@@ -14,19 +14,19 @@ from internetping import *
 ##  where do i put damageradius = smartlearning.predict(text) ??
 ##rememebr to add: reset(removes all radius of damage), delete secondary window if another loads?,
 
-class Map(ck.CTk):#defines the class map 
-    APP_NAME = "Nuclear Reactor Meltdown Simulator" #name of
-    WIDTH = 900 #dimensions
+class Map(ck.CTk):# defines the class map 
+    APP_NAME = "Nuclear Reactor Meltdown Simulator" # name of
+    WIDTH = 900 # dimensions
     HEIGHT = 600
 
-    def set_marker_event(self):#
+
+    def set_marker_event(self):
         self.clear_marker()
         current_position = self.map_widget.get_position()
         self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1]))
         print(current_position)
 
-    #def reset_button_event(self):
-        
+
     def clear_marker(self):
         for marker in self.marker_list:
             marker.delete()
@@ -39,45 +39,50 @@ class Map(ck.CTk):#defines the class map
             self.polygon1.delete()
 
 
-    def options(self, choice):
-            global longstraight
-            global latstraight
-            global longsmall
-            global latsmall
-            
-            if choice == "Sellafield Reactor":
+    def userchoice(self, choice):
+        global reactorchoice# choice is not a variable I cannot manipulate, only read, so must be set to one I can manipulate, hence, reactorchoice.
+        reactorchoice = choice
+    
+ 
+    def detonate_event(self):
+        try:
+            if reactorchoice == "Sellafield Reactor":
                 print("Sellafield Reactor")
                 longstraight = 0.1177935
                 latstraight = 0.0721811
                 longsmall = 0.08507753813
                 latsmall = 0.05213821774
-            elif choice == "Chernobyl":
+            elif reactorchoice == "Chernobyl":
                 print("Chernobyl")
                 longstraight = 0.4407
                 latstraight = 0.2701
                 longsmall = 0.3183
                 latsmall = 0.1951
-            elif choice == "Three Mile Island":
+            elif reactorchoice == "Three Mile Island":
                 print("Three Mile Island")
                 longstraight = 0.4739935
                 latstraight = 0.290384
                 longsmall = 0.3423465647
                 latsmall = 0.2097516416
-            elif choice == "Fukushima-Daiichi":
+            elif reactorchoice == "Fukushima-Daiichi":
                 print("Fukushima-Daiichi")
                 longstraight = 0.5924935
                 latstraight = 0.3659811
                 longsmall = 0.4279343795
                 latsmall = 0.2643573218
-            
-    def detonate_event(self):
+        except:# if reactorchoice is not filled, it set values to Sellafield Reactor
+            self.combobox.set("Sellafield Reactor")
+            print("Sellafield Reactor")
+            longstraight = 0.1177935
+            latstraight = 0.0721811
+            longsmall = 0.08507753813
+            latsmall = 0.05213821774 
+
         def polygon_click(polygon):
             print(f"polygon clicked - text: {polygon.name}")
 
-        #switzerland_marker = self.map_widget.set_address("Switzerland", marker=True, text="Switzerland")
-        #self.map_widget.set_zoom(8)
-        
-#get marker position to lable long and lat, currently always takes from centre of screen!! 
+
+# get marker position to lable long and lat, currently always takes from centre of screen!! 
         detonateposition = self.map_widget.get_position()
         print(detonateposition)
         detonateposition = str(detonateposition)
@@ -89,28 +94,21 @@ class Map(ck.CTk):#defines the class map
         longitude = float(longitude)
         print(latitude)
         print(longitude)
-        #longstraight = 1
-        #if longstraight == 0:
-            #pwindow = ck.CTkToplevel(self)
-            #pwindow.geometry("400x200")
+        
 
-            # create label on CTkToplevel window
-            #label = ck.CTkLabel(pwindow, text="CTkToplevel window")
-            #label.pack(side="top", fill="both", expand=True, padx=40, pady=40)
-        #else: 
         point1La = (latitude)
-        point1Lo = (longitude-longstraight)#longstraight
-        point2La = (latitude+latsmall)#latsmall
-        point2Lo = (longitude-longsmall)#longsmall
-        point3La = (latitude+latstraight)#latstraight
+        point1Lo = (longitude-longstraight)
+        point2La = (latitude+latsmall)
+        point2Lo = (longitude-longsmall)
+        point3La = (latitude+latstraight)
         point3Lo = (longitude)
         point4La = (latitude+latsmall)  
         point4Lo = (longitude+longsmall)
         point5La = (latitude)
-        point5Lo = (longitude+longstraight)#longstraight
+        point5Lo = (longitude+longstraight)
         point6La = (latitude-latsmall)
         point6Lo = (longitude+longsmall)
-        point7La = (latitude-latstraight)#latstraight
+        point7La = (latitude-latstraight)
         point7Lo = (longitude)
         point8La = (latitude-latsmall)
         point8Lo = (longitude-longsmall)
@@ -130,13 +128,15 @@ class Map(ck.CTk):#defines the class map
                                             command=polygon_click,
                                             name="detonation_polygon")
         self.polygon_list.append(self.polygon1)
-        #detonation.main()
+
 
     def on_closing(self, event=0):
         self.destroy()
 
+
     def start(self):
         self.mainloop()
+
 
     def wind_choose_event(self):
         root = Tk()
@@ -189,45 +189,77 @@ class Map(ck.CTk):#defines the class map
 
         root.mainloop()
     
-    def __init__(self, *args, **kwargs):#defines main bulk of setup code, where everything is defined
-        super().__init__(*args, **kwargs)#passes any positional and keyword arguments to the parent (I'm thinking being class()?)
 
-        self.title(Map.APP_NAME)#sets title of program to APP_NAME - predefined
-        self.geometry(str(Map.WIDTH) + "x" + str(Map.HEIGHT))#sets launch dimensions as whatever I defined them as above
-        self.minsize(Map.WIDTH, Map.HEIGHT)#sets the minimum size of the program to whatever the launch dimensions are
+    def __init__(self, *args, **kwargs):# defines main bulk of setup code, where everything is defined
+        super().__init__(*args, **kwargs)# passes any positional and keyword arguments to the parent (I'm thinking being class()?)
 
+        ##TITLE AND SIZE##
+        self.title(Map.APP_NAME)# sets title of program to APP_NAME - predefined
+        self.geometry(str(Map.WIDTH) + "x" + str(Map.HEIGHT))# sets launch dimensions as whatever I defined them as above
+        self.minsize(Map.WIDTH, Map.HEIGHT)# sets the minimum size of the program to whatever the launch dimensions are
+
+        ##ARRAYS FOR OVERLAYS##
         self.marker_list=[]
         self.polygon_list=[]
 
-        self.protocol("WM_DELETE_WINDOW", self.on_closing)#this clears the window should I close it
+        ##CLOSING SYSTEM##
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)# this clears the window should I close it
         self.bind("<Command-q>", self.on_closing)
         self.bind("<Command-w>", self.on_closing)
-        self.createcommand('tk::mac::Quit', self.on_closing)#quits something upon closing of the program
+        self.createcommand('tk::mac::Quit', self.on_closing)# quits something upon closing of the program
 
-        #creating the two sections to my program, two sides on the window,
-        #one side will have the map, one side will have the information (eventually)
-        #known as frames in tkinter module 
+        ##SETS 2X1 LAYOUT, TWO COLLUMNS, ONE ROW OF ENTIRE WINDOW##
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
 
-        self.grid_columnconfigure(1, weight=0)#these define the size of the frames relative to eachother
-        self.grid_columnconfigure(1, weight=1)#exact specifics behind how this works I do not know, mostly done through trial and error.
-        self.grid_rowconfigure(0, weight=1)#removing this blocks off the bottom half of the window so it stays
+        ##LEFT FRAME SETUP##
+        self.frame_left = ck.CTkFrame(master=self, width=150, corner_radius=0, fg_color=None)# both sections here set up the layout of
+        self.frame_left.grid(row=0, column=0, sticky="nsew")# the two columns I have made. along with giving them a name 
 
-        self.frame_left = ck.CTkFrame(master=self, width=150, corner_radius=0, fg_color=None)#both sections here set up the layout of
-        self.frame_left.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")#the two columns I have made. along with giving them a name
-
+        ##RIGHT FRAME LAYOUT##
         self.frame_right = ck.CTkFrame(master=self, corner_radius=0)
-        self.frame_right.grid(row=0, column=1, rowspan=1, pady=0, padx=0, sticky="nsew")
+        self.frame_right.grid(row=0, column=1, sticky="nsew")
 
-        #this builds the left hand frame
+        ##LEFT FRAME GAPS, TO PUT RESET AT BOTTOM#
+        self.frame_left.grid_rowconfigure(7, weight=1)# creates gap
+        self.frame_left.grid_rowconfigure(8, minsize=20)# empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(9, minsize=10)# empty row with minsize as spacing
+        self.frame_left.grid_rowconfigure(11, minsize=10) 
 
+        ##LEFT HAND FRAME OPTIONS##
+        self.button_1 = ck.CTkButton(master=self.frame_left,# creates a button
+                                                text="Set Marker",# sets button text to Set Marker
+                                                command=self.set_marker_event)# his is the event i use in if statments to make it do stuff
+        self.button_1.grid(pady=(20, 0), padx=(20, 20), row = 0, column = 0)# this sets up location of button 
         
-        self.frame_left.grid_rowconfigure(8, weight=1)#sets up the number of rows in my left frame
+        self.datechoose = ck.CTkButton(master=self.frame_left,
+                                                  text="Choose Date",
+                                                  command=self.date_choose_event)
+        self.datechoose.grid(pady=(20, 0), padx=(20, 20), row=1, column=0)
 
-        self.button_1 = ck.CTkButton(master=self.frame_left,#creates a button
-                                                text="Set Marker",#calls it set marker
-                                                command=self.set_marker_event)#this is the event i use in if statments to make it do stuff
-        self.button_1.grid(pady=(20, 0), padx=(20, 20), row = 0, column = 0)#this sets up location of button 
-        
+        datechoice = "No Date Selected"
+        self.datetext = ck.CTkLabel(self.frame_left,
+                                        text=datechoice, 
+                                        anchor="center")
+        self.datetext.grid(padx=(20, 20), pady=(20, 0), row=2, column=0)
+
+        self.windchoose = ck.CTkButton(master=self.frame_left,
+                                                  text="Wind Strength",
+                                                  command=self.wind_choose_event)
+        self.windchoose.grid(pady=(20,0), padx=(20, 20), row=3, column=0)
+
+        windchoice = "No Wind Selected"
+        self.windtext = ck.CTkLabel(self.frame_left,
+                                        text=windchoice, 
+                                        anchor="center")
+        self.windtext.grid(padx=(20, 20), pady=(20, 0), row=4, column=0)
+
+        combobox_var = ck.StringVar(value="None")
+        self.combobox = ck.CTkOptionMenu(master=self.frame_left,
+                                                    values=["Sellafield Reactor",  "Chernobyl", "Three Mile Island", "Fukushima-Daiichi"],
+                                                    command=self.userchoice,
+                                                    variable=combobox_var)
+        self.combobox.grid(padx=(20, 20), pady=(10, 0), row=5, column=0)
 
         self.button_2 = ck.CTkButton(master=self.frame_left,
                                                 text="Detonate",
@@ -235,61 +267,34 @@ class Map(ck.CTk):#defines the class map
         self.button_2.grid(pady=(20, 0), padx=(20, 20), row=6, column=0)
 
         self.reset_button = ck.CTkButton(master=self.frame_left,
-                                                text="Reset",
-                                                command=self.clear_marker_event)
-        self.reset_button.grid(pady=(20, 0), padx=(20, 20), row=8, column=0)
+                                                    text="Reset",
+                                                    command=self.clear_marker_event)
+        self.reset_button.grid(pady=(20, 0), padx=(20, 20), row=10, column=0)
 
-        self.datechoose = ck.CTkButton(master=self.frame_left,
-                                                text="Choose Date",
-                                                command=self.date_choose_event)
-        self.datechoose.grid(pady=(20, 0), padx=(20, 20), row=1, column=0)
-
-        datechoice = "No Date Selected"
-        self.datetext = ck.CTkLabel(self.frame_left,
-                                                text=datechoice, 
-                                                anchor="center")
-        self.datetext.grid(padx=(20, 20), pady=(20, 0), row=2, column=0)
-
-        
-        self.windchoose = ck.CTkButton(master=self.frame_left,
-                                                text="Wind Strength",
-                                                command=self.wind_choose_event)
-        self.windchoose.grid(pady=(20,0), padx=(20, 20), row=3, column=0)
-
-        windchoice = "No Wind Selected"
-        self.windtext = ck.CTkLabel(self.frame_left,
-                                                text=windchoice, 
-                                                anchor="center")
-        self.windtext.grid(padx=(20, 20), pady=(20, 0), row=4, column=0)
-
-       
-        self.combobox = ck.CTkOptionMenu(master=self.frame_left,
-                                                    values=["Sellafield Reactor",  "Chernobyl", "Three Mile Island", "Fukushima-Daiichi"],
-                                                    command=self.options)
-        self.combobox.set("Sellafield Reactor")
-        self.combobox.grid(padx=(20, 20), pady=(10, 0), row=5, column=0)
-
-
-        
-
-        #this builds the right hand frame
-
-        self.frame_right.grid_rowconfigure(1, weight=1)#sets up the grid the right hand frame operates in
-        self.frame_right.grid_rowconfigure(0, weight=0)
+        ##RIGHT HAND FRAME LAYOUT##
+        ##3X2 THREE COLLUMNS TWO ROWS##
         self.frame_right.grid_columnconfigure(0, weight=1)
         self.frame_right.grid_columnconfigure(1, weight=0)
         self.frame_right.grid_columnconfigure(2, weight=1)
+        self.frame_right.grid_rowconfigure(1, weight=1)
+        self.frame_right.grid_rowconfigure(0, weight=0)
+        
 
-        self.map_widget = TkinterMapView(self.frame_right, corner_radius=0)#sets up the map widget :D
-        self.map_widget.grid(row=1, rowspan=1, column=0, columnspan=3, sticky="nswe", padx=(0, 0), pady=(0, 0))
+        ##INSERTING MAP##
+        self.map_widget = TkinterMapView(self.frame_right, 
+                                            corner_radius=0)# sets up the map widget :D
+        self.map_widget.grid(row=1, rowspan=2, column=0, columnspan=3, sticky="nswe", padx=(0, 0), pady=(0, 0))
+        self.map_widget.set_address("Solihull")#sets address to start on to solihull
+        # self.map_option_menu.set("OpenStreetMap")#sets the map to street view (rather than satelight)
+        # self.appearance_mode_optionemenu.set("Dark")#sets map to dark mode rather than light mode
 
-        self.map_widget.set_address("Solihull")#sets address to start on to cheltenham
-        #self.map_option_menu.set("OpenStreetMap")#sets the map to street view (rather than satelight)
-        #self.appearance_mode_optionemenu.set("Dark")#sets map to dark mode rather than light mode
-    
-if __name__ == "__main__":
-    connect_window()
-    map = Map()
-    map.start()
- 
+
+def start():  
+    if __name__ == "__main__":
+        if connect_window():# runs internet ping check
+            map = Map()
+            map.start()
+        else: 
+            start()# if not connected, re runs function
+start()
         
