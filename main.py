@@ -5,14 +5,13 @@ from tkcalendar import Calendar
 from tkintermapview import TkinterMapView
 from maindetonate import detonation
 from tkinter import CENTER
-import math
 from internetping import *
 #from smartlearning import Smartlearning
 
 ### MAP CREDIT:    https://github.com/TomSchimansky/TkinterMapView ###
 ### tkinter used for UI ###
-##  where do i put damageradius = smartlearning.predict(text) ??
-##rememebr to add: reset(removes all radius of damage), delete secondary window if another loads?,
+## where do i put damageradius = smartlearning.predict(text) ?? ##
+## rememebr to add: reset(removes all radius of damage), delete secondary window if another loads?, ##
 
 class Map(ck.CTk):# defines the class map 
     APP_NAME = "Nuclear Reactor Meltdown Simulator" # name of
@@ -27,9 +26,11 @@ class Map(ck.CTk):# defines the class map
         self.marker_position = (coords[0], coords[1])# creates new fixed variable of said marker position 
         print(current_position)
 
-    def set_polygon_marker(self):
-        middle_point = self.marker_position# using fixed variable from above, plots marker here for polygon centre 
-        self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1]))
+    #def set_polygon_marker(self):
+        #middle_point = self.marker_position# using fixed variable from above, plots marker here for polygon centre 
+        #self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1]))
+
+    
 
 
     def clear_marker(self):
@@ -49,8 +50,62 @@ class Map(ck.CTk):# defines the class map
     def userchoice(self, choice):
         global reactorchoice# choice is not a variable I cannot manipulate, only read, so must be set to one I can manipulate, hence, reactorchoice.
         reactorchoice = choice
-    
+        
+
+    def sella(self): 
+        latitude = 54.420494091731996
+        longitude = -3.499754145054311
+        longstraight = 0.1177935
+        latstraight = 0.0721811
+        longsmall = 0.08507753813
+        latsmall = 0.05213821774
+
+        point1La = (latitude)
+        point1Lo = (longitude-longstraight)
+        point2La = (latitude+latsmall)
+        point2Lo = (longitude-longsmall)
+        point3La = (latitude+latstraight)
+        point3Lo = (longitude)
+        point4La = (latitude+latsmall)  
+        point4Lo = (longitude+longsmall)
+        point5La = (latitude)
+        point5Lo = (longitude+longstraight)
+        point6La = (latitude-latsmall)
+        point6Lo = (longitude+longsmall)
+        point7La = (latitude-latstraight)
+        point7Lo = (longitude)
+        point8La = (latitude-latsmall)
+        point8Lo = (longitude-longsmall)
+
+        self.polygon1 = self.map_widget.set_polygon([(point1La,point1Lo),
+                                    (point2La,point2Lo),
+                                    (point3La,point3Lo),
+                                    (point4La,point4Lo),
+                                    (point5La,point5Lo),
+                                    (point6La,point6Lo),
+                                    (point7La,point7Lo),
+                                    (point8La,point8Lo)],
+                                            # fill_color=None,
+                                            # outline_color="red",
+                                            # border_width=12, 
+                                            name="detonation_polygon")
+        self.polygon_list.append(self.polygon1)
+
+    def set_polygon_marker(self):
+        try:
+            middle_point = self.marker_position# using fixed variable from above, plots marker here for polygon centre 
+            if reactorchoice == "Sellafield Reactor":
+                self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1], text="Sellafield Reactor"))
+            elif reactorchoice == "Chernobyl":
+                self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1], text="Chernobyl"))
+            elif reactorchoice == "Three Mile Island":
+                self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1], text="Three Mile Island"))
+            elif reactorchoice == "Fukushima-Daiichi":
+                self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1], text="Fukushima-Daiichi"))
+        except:
+            self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1], text="Sellafield Reactor"))
  
+
     def detonate_event(self):
         try:
             if reactorchoice == "Sellafield Reactor":
@@ -212,6 +267,8 @@ class Map(ck.CTk):# defines the class map
         self.map_widget.set_address(self.entry.get())
 
 
+
+
     def __init__(self, *args, **kwargs):# defines main bulk of setup code, where everything is defined
         super().__init__(*args, **kwargs)# passes any positional and keyword arguments to the parent (I'm thinking being class()?)
 
@@ -249,49 +306,44 @@ class Map(ck.CTk):# defines the class map
         #self.frame_left.grid_rowconfigure(9, minsize=10)# empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(11, minsize=10) 
 
-        ##LEFT HAND FRAME OPTIONS##
-        self.button_1 = ck.CTkButton(master=self.frame_left,# creates a button
-                                                text="Set Marker",# sets button text to Set Marker
-                                                command=self.set_marker_event)# his is the event i use in if statments to make it do stuff
-        self.button_1.grid(pady=(20, 0), padx=(20, 20), row = 0, column = 0)# this sets up location of button 
-        
-        self.datechoose = ck.CTkButton(master=self.frame_left,
-                                                  text="Choose Date",
-                                                  command=self.date_choose_event)
-        self.datechoose.grid(pady=(20, 0), padx=(20, 20), row=1, column=0)
+        ##LEFT HAND FRAME OPTIONS## 
+        self.datechoose = ck.CTkButton(master=self.frame_left,# creates a button
+                                                  text="Choose Date",# sets button text to Set Marker
+                                                  command=self.date_choose_event)# sets command for button
+        self.datechoose.grid(pady=(20, 0), padx=(20, 20), row=0, column=0)# this sets up location of button 
 
         datechoice = "No Date Selected"
         self.datetext = ck.CTkLabel(self.frame_left,
                                         text=datechoice, 
                                         anchor="center")
-        self.datetext.grid(padx=(20, 20), pady=(20, 0), row=2, column=0)
+        self.datetext.grid(padx=(20, 20), pady=(20, 0), row=1, column=0)
 
         self.windchoose = ck.CTkButton(master=self.frame_left,
                                                   text="Wind Strength",
                                                   command=self.wind_choose_event)
-        self.windchoose.grid(pady=(20,0), padx=(20, 20), row=3, column=0)
+        self.windchoose.grid(pady=(20,0), padx=(20, 20), row=2, column=0)
 
         windchoice = "No Wind Selected"
         self.windtext = ck.CTkLabel(self.frame_left,
                                         text=windchoice, 
                                         anchor="center")
-        self.windtext.grid(padx=(20, 20), pady=(20, 0), row=4, column=0)
+        self.windtext.grid(padx=(20, 20), pady=(20, 0), row=3, column=0)
 
         combobox_var = ck.StringVar(value="None")
         self.combobox = ck.CTkOptionMenu(master=self.frame_left,
                                                     values=["Sellafield Reactor",  "Chernobyl", "Three Mile Island", "Fukushima-Daiichi"],
                                                     command=self.userchoice,
                                                     variable=combobox_var)
-        self.combobox.grid(padx=(20, 20), pady=(10, 0), row=5, column=0)
+        self.combobox.grid(padx=(20, 20), pady=(10, 0), row=4, column=0)
 
         self.button_2 = ck.CTkButton(master=self.frame_left,
                                                 text="Detonate",
                                                 command=self.detonate_event)
-        self.button_2.grid(pady=(20, 0), padx=(20, 20), row=6, column=0)
+        self.button_2.grid(pady=(20, 0), padx=(20, 20), row=5, column=0)
 
         self.map_label = ck.CTkLabel(self.frame_left, text="Map Type:", anchor="w")
         self.map_label.grid(padx=(20, 20), pady=(20, 0), row=8, column=0, )
-        self.map_option_menu = ck.CTkOptionMenu(self.frame_left, values=["OpenStreetMap", "Google Normal", "Google Satellite"],
+        self.map_option_menu = ck.CTkOptionMenu(self.frame_left, values=["OS Map", "Google Normal", "Google Satellite"],
                                                                        command=self.change_map)
         self.map_option_menu.grid(padx=(20, 20), pady=(10, 0), row=9, column=0)
 
@@ -313,11 +365,18 @@ class Map(ck.CTk):# defines the class map
         self.map_widget = TkinterMapView(self.frame_right, 
                                             corner_radius=0)# sets up the map widget :D
         self.map_widget.grid(row=1, rowspan=2, column=0, columnspan=3, sticky="nswe", padx=(0, 0), pady=(0, 0))
-        self.map_widget.set_address("Solihull")#sets address to start on to solihull
+        self.map_widget.set_address("Solihull")#sets address to start on to solihull./-[]
         # self.map_option_menu.set("OpenStreetMap")#sets the map to street view (rather than satelight)
         # self.appearance_mode_optionemenu.set("Dark")#sets map to dark mode rather than light mode
 
         self.map_widget.add_left_click_map_command(self.set_marker_event)
+
+       
+
+        self.marker_1 = self.map_widget.set_marker(54.420494091731996, -3.499754145054311, text="Sellafield Site", command=self.sella)
+        self.marker_2 = self.map_widget.set_marker(51.389550623435255, 30.099772380175068, text="Chernobyl")
+        self.marker_3 = self.map_widget.set_marker(40.15312060549065, -76.72382538884362, text="Three Mile Island")
+        self.marker_4 = self.map_widget.set_marker(37.42098526127145, 141.03135070602593, text="Fukushima-Daiichi")
 
         self.entry = ck.CTkEntry(master=self.frame_right,
                                             placeholder_text="Search")
