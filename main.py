@@ -20,14 +20,15 @@ class Map(ck.CTk):# defines the class map
     HEIGHT = 600
 
 
-    def set_marker_event(self):
-        self.clear_marker()
-        current_position = self.map_widget.get_position()
-        self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1]))
+    def set_marker_event(self, coords):
+        self.clear_marker()# deletes any existing marker
+        current_position = self.map_widget.get_position()# sets current position to centre of map (dynamic variable, takes middle whenever new marker made)
+        self.marker_list.append(self.map_widget.set_marker(coords[0], coords[1]))# adds a marker to array with coordinates of centre of screen 
+        self.marker_position = (coords[0], coords[1])# creates new fixed variable of said marker position 
         print(current_position)
 
     def set_polygon_marker(self):
-        middle_point = self.map_widget.get_position()
+        middle_point = self.marker_position# using fixed variable from above, plots marker here for polygon centre 
         self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1]))
 
 
@@ -88,8 +89,7 @@ class Map(ck.CTk):# defines the class map
             print(f"polygon clicked - text: {polygon.name}")
 
 
-# get marker position to lable long and lat, currently always takes from centre of screen!! 
-        detonateposition = self.map_widget.get_position()
+        detonateposition = self.marker_position# uses fixed variable to put it where marker was, not centre of screen 
         print(detonateposition)
         detonateposition = str(detonateposition)
 
@@ -172,6 +172,7 @@ class Map(ck.CTk):# defines the class map
 
         root.mainloop()
 
+
     def date_choose_event(self):
         root = Tk()
 
@@ -197,6 +198,19 @@ class Map(ck.CTk):# defines the class map
 
         root.mainloop()
     
+
+    def change_map(self, new_map: str):
+        if new_map == "OpenStreetMap":
+            self.map_widget.set_tile_server("https://a.tile.openstreetmap.org/{z}/{x}/{y}.png")
+        elif new_map == "Google Normal":
+            self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
+        elif new_map == "Google Satellite":
+            self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)
+    
+
+    def search_event(self, event=None):
+        self.map_widget.set_address(self.entry.get())
+
 
     def __init__(self, *args, **kwargs):# defines main bulk of setup code, where everything is defined
         super().__init__(*args, **kwargs)# passes any positional and keyword arguments to the parent (I'm thinking being class()?)
@@ -231,8 +245,8 @@ class Map(ck.CTk):# defines the class map
 
         ##LEFT FRAME GAPS, TO PUT RESET AT BOTTOM#
         self.frame_left.grid_rowconfigure(7, weight=1)# creates gap
-        self.frame_left.grid_rowconfigure(8, minsize=20)# empty row with minsize as spacing
-        self.frame_left.grid_rowconfigure(9, minsize=10)# empty row with minsize as spacing
+        #self.frame_left.grid_rowconfigure(8, minsize=20)# empty row with minsize as spacing
+        #self.frame_left.grid_rowconfigure(9, minsize=10)# empty row with minsize as spacing
         self.frame_left.grid_rowconfigure(11, minsize=10) 
 
         ##LEFT HAND FRAME OPTIONS##
@@ -275,6 +289,12 @@ class Map(ck.CTk):# defines the class map
                                                 command=self.detonate_event)
         self.button_2.grid(pady=(20, 0), padx=(20, 20), row=6, column=0)
 
+        self.map_label = ck.CTkLabel(self.frame_left, text="Map Type:", anchor="w")
+        self.map_label.grid(padx=(20, 20), pady=(20, 0), row=8, column=0, )
+        self.map_option_menu = ck.CTkOptionMenu(self.frame_left, values=["OpenStreetMap", "Google Normal", "Google Satellite"],
+                                                                       command=self.change_map)
+        self.map_option_menu.grid(padx=(20, 20), pady=(10, 0), row=9, column=0)
+
         self.reset_button = ck.CTkButton(master=self.frame_left,
                                                     text="Reset",
                                                     command=self.clear_marker_event)
@@ -296,6 +316,19 @@ class Map(ck.CTk):# defines the class map
         self.map_widget.set_address("Solihull")#sets address to start on to solihull
         # self.map_option_menu.set("OpenStreetMap")#sets the map to street view (rather than satelight)
         # self.appearance_mode_optionemenu.set("Dark")#sets map to dark mode rather than light mode
+
+        self.map_widget.add_left_click_map_command(self.set_marker_event)
+
+        self.entry = ck.CTkEntry(master=self.frame_right,
+                                            placeholder_text="Search")
+        self.entry.grid(row=3, column=0, columnspan=2, sticky="we", padx=(12, 0), pady=12)
+        self.entry.entry.bind("<Return>", self.search_event)
+
+        self.button_5 = ck.CTkButton(master=self.frame_right,
+                                                text="Search",
+                                                width=90,
+                                                command=self.search_event)
+        self.button_5.grid(row=3, column=2, sticky="w", padx=(12, 0), pady=12)
 
 
 def start():  
