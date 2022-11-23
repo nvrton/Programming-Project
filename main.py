@@ -26,6 +26,10 @@ class Map(ck.CTk):# defines the class map
         self.marker_list.append(self.map_widget.set_marker(current_position[0], current_position[1]))
         print(current_position)
 
+    def set_polygon_marker(self):
+        middle_point = self.map_widget.get_position()
+        self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1]))
+
 
     def clear_marker(self):
         for marker in self.marker_list:
@@ -37,6 +41,8 @@ class Map(ck.CTk):# defines the class map
             marker.delete()
         for self.polygon1 in self.polygon_list:
             self.polygon1.delete()
+        for marker in self.polygon_marker_list:
+            marker.delete()
 
 
     def userchoice(self, choice):
@@ -113,6 +119,8 @@ class Map(ck.CTk):# defines the class map
         point8La = (latitude-latsmall)
         point8Lo = (longitude-longsmall)
         
+        self.set_polygon_marker()
+
         global polygon1
         self.polygon1 = self.map_widget.set_polygon([(point1La,point1Lo),
                                     (point2La,point2Lo),
@@ -201,6 +209,7 @@ class Map(ck.CTk):# defines the class map
         ##ARRAYS FOR OVERLAYS##
         self.marker_list=[]
         self.polygon_list=[]
+        self.polygon_marker_list=[]
 
         ##CLOSING SYSTEM##
         self.protocol("WM_DELETE_WINDOW", self.on_closing)# this clears the window should I close it
