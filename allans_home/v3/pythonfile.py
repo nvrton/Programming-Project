@@ -23,7 +23,8 @@ class Assistant:
             'one thousand two hundred and five' : damage1205,
             'one thousand one hundred and ninety-five' : damage1195,
             'one thousand one hundred and fifty-two' : damage1152
-            }##add lower (69) and doc (114) back to text.py in machine learning code 
+            }##add lower (69) and doc (114) back to text.py in machine learning code
+            ##"C:\Users\joshu\AppData\Local\Programs\Python\Python310\Lib\site-packages\sklearn\feature_extraction\text.py"## 
             
 
         try:
