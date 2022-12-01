@@ -14,7 +14,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 print("You absolute plank!")
 class Smartlearning: ### Makes use of naive bayes classifier algorithm ###
     def __init__(self):
-        self.data = pd.read_csv(r"C:\Users\joshu\Documents\GitHub\code-main\code-main\winddata.csv")
+        self.data = pd.read_csv(r"C:\Users\joshu\Documents\GitHub\Programming-Project\allans_home\v3\allans_feed.csv")
         self.train()
 
     def train(self):
@@ -32,7 +32,7 @@ class Smartlearning: ### Makes use of naive bayes classifier algorithm ###
 
     def filecheck(self,text):
         total = 0
-        with open ('winddata.csv') as f:
+        with open (r"C:\Users\joshu\Documents\GitHub\Programming-Project\allans_home\v3\allans_feed.csv") as f:
             reader = csv.reader(f, delimiter=',')
             intent = self.svm.predict(self.count_vect.transform([text]))[0]
             for row in reader:
@@ -41,7 +41,7 @@ class Smartlearning: ### Makes use of naive bayes classifier algorithm ###
                         total = 1
                         break
             if total == 0:
-                file = open('winddata.csv', 'a')
+                file = open(r"C:\Users\joshu\Documents\GitHub\Programming-Project\allans_home\v3\allans_feed.csv", 'a')
                 writer = csv.writer(file)
                 list = [text,intent]
                 writer.writerow(list)
