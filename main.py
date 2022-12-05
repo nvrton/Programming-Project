@@ -24,7 +24,7 @@ class Map(ck.CTk):# defines the class map
         current_position = self.map_widget.get_position()# sets current position to centre of map (dynamic variable, takes middle whenever new marker made)
         self.marker_list.append(self.map_widget.set_marker(coords[0], coords[1]))# adds a marker to array with coordinates of centre of screen 
         self.marker_position = (coords[0], coords[1])# creates new fixed variable of said marker position 
-        print(current_position)
+        print(self.marker_position)
 
     #def set_polygon_marker(self):
         #middle_point = self.marker_position# using fixed variable from above, plots marker here for polygon centre 
@@ -105,6 +105,17 @@ class Map(ck.CTk):# defines the class map
         except:
             self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1], text="Sellafield Reactor"))
  
+    def create_toplevel(self):
+        window = ck.CTkToplevel(self)
+        window.geometry("270x200")
+        window.title("Error!")
+
+        # create label on CTkToplevel window
+        label = ck.CTkLabel(window, text="Please select a marker position!")
+        label.pack(side="top", fill="both", expand=True, padx=40, pady=20)
+        
+        button = ck.CTkButton(window, text="Close", command=window.destroy)
+        button.pack(side="bottom", fill="both", expand=True, padx=40, pady=30)
 
     def detonate_event(self):
         try:
@@ -143,55 +154,59 @@ class Map(ck.CTk):# defines the class map
         def polygon_click(polygon):
             print(f"polygon clicked - text: {polygon.name}")
 
-
-        detonateposition = self.marker_position# uses fixed variable to put it where marker was, not centre of screen 
-        print(detonateposition)
-        detonateposition = str(detonateposition)
-
-        latitude,longitude = detonateposition.split(",")
-        latitude = latitude.strip("(")
-        longitude = longitude.strip(")")
-        latitude = float(latitude)
-        longitude = float(longitude)
-        print(latitude)
-        print(longitude)
+        try:
+            detonateposition = self.marker_position# uses fixed variable to put it where marker was, not centre of screen 
+            print(detonateposition)
+            detonateposition = str(detonateposition)
+        
         
 
-        point1La = (latitude)
-        point1Lo = (longitude-longstraight)
-        point2La = (latitude+latsmall)
-        point2Lo = (longitude-longsmall)
-        point3La = (latitude+latstraight)
-        point3Lo = (longitude)
-        point4La = (latitude+latsmall)  
-        point4Lo = (longitude+longsmall)
-        point5La = (latitude)
-        point5Lo = (longitude+longstraight)
-        point6La = (latitude-latsmall)
-        point6Lo = (longitude+longsmall)
-        point7La = (latitude-latstraight)
-        point7Lo = (longitude)
-        point8La = (latitude-latsmall)
-        point8Lo = (longitude-longsmall)
-        
-        self.set_polygon_marker()
+            latitude,longitude = detonateposition.split(",")
+            latitude = latitude.strip("(")
+            longitude = longitude.strip(")")
+            latitude = float(latitude)
+            longitude = float(longitude)
+            print(latitude)
+            print(longitude)
+            
 
-        global polygon1
-        self.polygon1 = self.map_widget.set_polygon([(point1La,point1Lo),
-                                    (point2La,point2Lo),
-                                    (point3La,point3Lo),
-                                    (point4La,point4Lo),
-                                    (point5La,point5Lo),
-                                    (point6La,point6Lo),
-                                    (point7La,point7Lo),
-                                    (point8La,point8Lo)],
-                                            # fill_color=None,
-                                            # outline_color="red",
-                                            # border_width=12, 
-                                            command=polygon_click,
-                                            name="detonation_polygon")
-        self.polygon_list.append(self.polygon1)
+            point1La = (latitude)
+            point1Lo = (longitude-longstraight)
+            point2La = (latitude+latsmall)
+            point2Lo = (longitude-longsmall)
+            point3La = (latitude+latstraight)
+            point3Lo = (longitude)
+            point4La = (latitude+latsmall)  
+            point4Lo = (longitude+longsmall)
+            point5La = (latitude)
+            point5Lo = (longitude+longstraight)
+            point6La = (latitude-latsmall)
+            point6Lo = (longitude+longsmall)
+            point7La = (latitude-latstraight)
+            point7Lo = (longitude)
+            point8La = (latitude-latsmall)
+            point8Lo = (longitude-longsmall)
+            
+            self.set_polygon_marker()
 
+            global polygon1
+            self.polygon1 = self.map_widget.set_polygon([(point1La,point1Lo),
+                                        (point2La,point2Lo),
+                                        (point3La,point3Lo),
+                                        (point4La,point4Lo),
+                                        (point5La,point5Lo),
+                                        (point6La,point6Lo),
+                                        (point7La,point7Lo),
+                                        (point8La,point8Lo)],
+                                                # fill_color=None,
+                                                # outline_color="red",
+                                                # border_width=12, 
+                                                command=polygon_click,
+                                                name="detonation_polygon")
+            self.polygon_list.append(self.polygon1)
+        except:
+            print("No marker placed")
+            self.create_toplevel()
 
     def on_closing(self, event=0):
         self.destroy()
@@ -202,31 +217,29 @@ class Map(ck.CTk):# defines the class map
 
 
     def wind_choose_event(self):
-        root = Tk()
+        
+        window = ck.CTkToplevel(self)
+        window.geometry("290x200")
+        window.title("Select Wind Strength")
 
-        root.title("Select Wind Strength")
-        root.geometry("200x200")
-
-        slider = Scale(root, from_=0, to=100, orient=HORIZONTAL)
+        # create label on CTkToplevel window
+        slider = ck.CTkSlider(window, from_=0, to=100, orient="horizontal", command=window.update())
         slider.set(0)
-
-        slider.pack(pady = 20)
-
-        def grad_date():
+        slider.pack(side="top", expand=True, padx=40, pady=20)
+        
+        def set_wind():
             global windchoice
-            wind.config(text = "Selected Wind Strength is: " + str(slider.get()))
-            windchoice = str(slider.get())
+            #wind.config(text = "Selected Wind Strength is: " + str(slider.get()))
+            windchoice = int(slider.get())
+            windchoice = str(windchoice)
             print(windchoice)
+            windchoice = (windchoice, "mph North")
             self.windtext = ck.CTkLabel(self.frame_left, text=windchoice, anchor="center")
-            self.windtext.grid(padx=(20, 20), pady=(20, 0), row=4, column=0,)
-
-        Button(root, text = "Set Wind Strength", command = grad_date).pack(pady = 20)
-            
-        wind = Label(root, text = "")
-        wind.pack(pady = 20)
-
-        root.mainloop()
-
+            self.windtext.grid(padx=(20, 20), pady=(20, 0), row=3, column=0,)
+            window.destroy()
+        
+        button = ck.CTkButton(window, text="Set Wind Strenth", command=set_wind)
+        button.pack(side="bottom", fill="both", expand=True, padx=40, pady=30)
 
     def date_choose_event(self):
         root = Tk()
@@ -244,7 +257,7 @@ class Map(ck.CTk):# defines the class map
             datechoice = cal.get_date()
             print(datechoice)
             self.datetext = ck.CTkLabel(self.frame_left, text=datechoice, anchor="center")
-            self.datetext.grid(padx=(20, 20), pady=(20, 0), row=2, column=0,)
+            self.datetext.grid(padx=(20, 20), pady=(20, 0), row=1, column=0,)
 
         Button(root, text = "Get Date", command = grad_date).pack(pady = 20)
             
@@ -377,6 +390,40 @@ class Map(ck.CTk):# defines the class map
         self.marker_2 = self.map_widget.set_marker(51.389550623435255, 30.099772380175068, text="Chernobyl")
         self.marker_3 = self.map_widget.set_marker(40.15312060549065, -76.72382538884362, text="Three Mile Island")
         self.marker_4 = self.map_widget.set_marker(37.42098526127145, 141.03135070602593, text="Fukushima-Daiichi")
+        latitude = 51.389550623435255
+        longitude = 30.099772380175068
+        longstraight = 0.4407
+        latstraight = 0.2701
+        longsmall = 0.3183
+        latsmall = 0.1951
+        point1La = (latitude)
+        point1Lo = (longitude-longstraight)
+        point2La = ((latitude+latsmall)+0.01706341863953)
+        point2Lo = ((longitude-longsmall)-0.087890625)
+        point3La = (55.871463005571265)
+        point3Lo = (longitude)
+        point4La = (51.600317879729694)  
+        point4Lo = (30.50623550445897)
+        point5La = (latitude)
+        point5Lo = (longitude+longstraight)
+        point6La = (latitude-latsmall)
+        point6Lo = (longitude+longsmall)
+        point7La = (latitude-latstraight)
+        point7Lo = (longitude)
+        point8La = (latitude-latsmall)
+        point8Lo = (longitude-longsmall)
+        self.polygon_2 = self.map_widget.set_polygon([(point1La,point1Lo),
+                                        (point2La,point2Lo),
+                                        (point3La,point3Lo),
+                                        (point4La,point4Lo),
+                                        (point5La,point5Lo),
+                                        (point6La,point6Lo),
+                                        (point7La,point7Lo),
+                                        (point8La,point8Lo)],
+                                                # fill_color=None,
+                                                # outline_color="red",
+                                                # border_width=12, 
+                                                name="detonation_polygon")
 
         self.entry = ck.CTkEntry(master=self.frame_right,
                                             placeholder_text="Search")

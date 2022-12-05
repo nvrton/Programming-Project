@@ -1,0 +1,34 @@
+latitude = 51.389550623435255
+        longitude = 30.099772380175068
+        longstraight = 0.4407
+        latstraight = 0.2701
+        longsmall = 0.3183
+        latsmall = 0.1951
+        point1La = (latitude)
+        point1Lo = (longitude-longstraight)
+        point2La = ((latitude+latsmall)+0.01706341863953)
+        point2Lo = ((longitude-longsmall)-0.087890625)
+        point3La = (55.871463005571265)
+        point3Lo = (longitude)
+        point4La = (51.600317879729694)  
+        point4Lo = (30.50623550445897)
+        point5La = (latitude)
+        point5Lo = (longitude+longstraight)
+        point6La = (latitude-latsmall)
+        point6Lo = (longitude+longsmall)
+        point7La = (latitude-latstraight)
+        point7Lo = (longitude)
+        point8La = (latitude-latsmall)
+        point8Lo = (longitude-longsmall)
+        self.polygon_2 = self.map_widget.set_polygon([(point1La,point1Lo),
+                                        (point2La,point2Lo),
+                                        (point3La,point3Lo),
+                                        (point4La,point4Lo),
+                                        (point5La,point5Lo),
+                                        (point6La,point6Lo),
+                                        (point7La,point7Lo),
+                                        (point8La,point8Lo)],
+                                                # fill_color=None,
+                                                # outline_color="red",
+                                                # border_width=12, 
+                                                name="detonation_polygon")
