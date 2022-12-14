@@ -1,6 +1,0 @@
-customtkinter==4.5.10
-pandas==1.5.0
-PySimpleGUI==4.60.3
-scikit_learn==1.1.2
-tkcalendar==1.6.1
-tkintermapview==1.14
