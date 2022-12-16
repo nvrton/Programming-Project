@@ -30,8 +30,6 @@ class Map(ck.CTk):# defines the class map
         #middle_point = self.marker_position# using fixed variable from above, plots marker here for polygon centre 
         #self.polygon_marker_list.append(self.map_widget.set_marker(middle_point[0], middle_point[1]))
 
-    
-
 
     def clear_marker(self):
         for marker in self.marker_list:
@@ -208,6 +206,7 @@ class Map(ck.CTk):# defines the class map
             print("No marker placed")
             self.create_toplevel()
 
+
     def on_closing(self, event=0):
         self.destroy()
 
@@ -278,8 +277,6 @@ class Map(ck.CTk):# defines the class map
 
     def search_event(self, event=None):
         self.map_widget.set_address(self.entry.get())
-
-
 
 
     def __init__(self, *args, **kwargs):# defines main bulk of setup code, where everything is defined
