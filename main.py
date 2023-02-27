@@ -233,7 +233,7 @@ class Map(ck.CTk):# defines the class map
             windchoice = str(windchoice)
             print(windchoice)
             windchoice = (windchoice, "mph North")
-            self.windtext = ck.CTkLabel(self.frame_left, text=windchoice, anchor="center")
+            self.windtext = ck.CTkLabel(self.frame_left, text="100 mph North", anchor="center")
             self.windtext.grid(padx=(20, 20), pady=(20, 0), row=3, column=0,)
             window.destroy()
         
@@ -333,7 +333,7 @@ class Map(ck.CTk):# defines the class map
                                                   command=self.wind_choose_event)
         self.windchoose.grid(pady=(20,0), padx=(20, 20), row=2, column=0)
 
-        windchoice = "No Wind Selected"
+        windchoice = "100 mph North"
         self.windtext = ck.CTkLabel(self.frame_left,
                                         text=windchoice, 
                                         anchor="center")
