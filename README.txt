@@ -1,6 +1,25 @@
-Repository contains my A-Level programming project python files, project dissertation, along with any other testing files I have used along the way. 
+# Nuclear Reactor Simulator
+![python image](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+###### Nuclear Reactor Simulator, it works by having a map that you can decide where you'd like to blow up...
 
-A Nuclear Reactor Meltdown Simulator, letting you place a marker anywhere in the world and select a reactor type to simulate (options from four real world examples) the damage done in the form of a radius around the point in which 
-you placed as a result of the reactor melting.
+## Installation
+1. Clone the repository by running git clone `https://github.com/nvrton/Programming-Project.git`
+## Usage
+To start the virtual assistant, run python main.py in your terminal. This will open a command-line interface where you can interact with the virtual assistant.
 
-Also contained is my 70+ page dissertation overviewing the Anaylsis, Design, Coding, and Evaluation of my project (some sections yet to be completed) and overall, this will contribute to 20% of my Computer Science A-Level. 
+## The Nuclear Reactor Simulator has:
+
+- An interactive map
+- Many different styles of map
+- A wind changer
+- And many more
+## Contribution Guidelines
+If you would like to contribute to this project, please follow these guidelines:
+
+ - Fork the repository and make your changes on a new branch.
+ - Submit a pull request to have your changes reviewed and merged into the main branch.
+ - Please ensure that your code is well-documented and follows PEP 8 style guidelines.
+## License
+This project is licensed under the MIT License. See the LICENSE file for more details.
+
+If you have any questions or encounter any issues with this project, please feel free to create an issue on GitHub. Thank you for using Virtual Assistant!
