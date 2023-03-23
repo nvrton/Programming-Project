@@ -1,4 +1,4 @@
-#from sqlite3 import SQLITE_DROP_VTABLE
+from sqlite3 import SQLITE_DROP_VTABLE
 import customtkinter as ck
 from tkinter import *
 from tkcalendar import Calendar
@@ -6,7 +6,7 @@ from tkintermapview import TkinterMapView
 from maindetonate import detonation
 from tkinter import CENTER
 from internetping import *
-#from smartlearning import Smartlearning
+from smartlearning import Smartlearning
 
 ### MAP CREDIT:    https://github.com/TomSchimansky/TkinterMapView ###
 ### tkinter used for UI ###
