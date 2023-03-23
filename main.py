@@ -19,7 +19,8 @@ class Map(ck.CTk):# defines the class map
 
     def set_marker_event(self, coords):
         self.clear_marker()# deletes any existing marker
-        current_position = self.map_widget.get_position()# sets current position to centre of map (dynamic variable, takes middle whenever new marker made)
+        current_position = self.map_widget.get_position()# sets current position to centre of map (dynamic variable, 
+        #takes middle whenever new marker made)
         self.marker_list.append(self.map_widget.set_marker(coords[0], coords[1]))# adds a marker to array with coordinates of centre of screen 
         self.marker_position = (coords[0], coords[1])# creates new fixed variable of said marker position 
         print(self.marker_position)
@@ -44,7 +45,8 @@ class Map(ck.CTk):# defines the class map
 
 
     def userchoice(self, choice):
-        global reactorchoice# choice is not a variable I cannot manipulate, only read, so must be set to one I can manipulate, hence, reactorchoice.
+        global reactorchoice# choice is not a variable I cannot manipulate, only read, so must be set to one I can manipulate, hence, 
+        #reactorchoice.
         reactorchoice = choice
         
 
