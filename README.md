@@ -4,8 +4,9 @@
 
 ## Installation
 1. Clone the repository by running git clone `https://github.com/nvrton/Programming-Project.git`
+
 ## Usage
-To start the virtual assistant, run python main.py in your terminal. This will open a command-line interface where you can interact with the virtual assistant.
+Once you have the repo installed, along with all moduels imported run the main.py file. 
 
 ## The Nuclear Reactor Simulator has:
 
@@ -13,12 +14,14 @@ To start the virtual assistant, run python main.py in your terminal. This will o
 - Many different styles of map
 - A wind changer
 - And many more
+
 ## Contribution Guidelines
 If you would like to contribute to this project, please follow these guidelines:
 
  - Fork the repository and make your changes on a new branch.
  - Submit a pull request to have your changes reviewed and merged into the main branch.
  - Please ensure that your code is well-documented and follows PEP 8 style guidelines.
+ 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
